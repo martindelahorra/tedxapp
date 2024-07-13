@@ -17,9 +17,9 @@ module.exports = {
           'subtitle-spk':"#4A4E62",
         },
         fontFamily: {
-          Outfit: ['Outfit-thin'],
-          Roboto: ['RobotoMono-Regular'],
-          BigShoulders: ['BigShoulderText-thin']
+          Outfit: ['Outfitthin'],
+          Roboto: ['RobotoMonoRegular'],
+          BigShoulders: ['BigShoulderTextthin']
         },
       },
     },
