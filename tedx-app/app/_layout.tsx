@@ -15,6 +15,8 @@ export default function RootLayout() {
     Outfit: require('../assets/fonts/OutfitThin.ttf'),
     Roboto: require('../assets/fonts/RobotoMono-Regular.ttf'),
     BigShoulders: require('../assets/fonts/BigShouldersText-Thin.ttf'),
+    Sans: require('../assets/fonts/OpenSans-Bold.ttf'),
+    Alata: require('../assets/fonts/Alata-Regular.ttf'),
   });
 
   useEffect(() => {

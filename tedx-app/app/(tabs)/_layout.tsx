@@ -2,6 +2,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from './index'; // Adjust the import according to your file structure
 import TabTwoScreen from './explore';
+import TabThreeScreen from './catalog';
 import { Image } from 'react-native';
 
 const Drawer = createDrawerNavigator();
@@ -22,6 +23,7 @@ export default function App() {
       >
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Explore" component={TabTwoScreen} />
+          <Drawer.Screen name="Catalog" component={TabThreeScreen} />
           {/* Add other screens here */}
       </Drawer.Navigator>
   </GestureHandlerRootView>
