@@ -21,7 +21,7 @@ export default function TabThreeScreen() {
         style={{ width: "100%", height: 100 }}
       />
       <View className="h-12">
-        <Text className="text-center">Waiting info Speaker .....</Text>
+        <Text className="text-center">Waiting info Speakers .....</Text>
       </View>
       <View className="pt-10 pb-10 bg-white">
         <Text className="text-deep-blue text-4xl uppercase font-[Sans] font-semibold  text-center">
