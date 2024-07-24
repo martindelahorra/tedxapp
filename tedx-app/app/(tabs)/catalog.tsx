@@ -1,12 +1,14 @@
 import react from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-import Footer from '@/components/Footer';
+import Footer from "@/components/Footer";
+import Card from "@/components/Card";
+import MiniCard from "@/components/MiniCard";
 
 export default function TabThreeScreen() {
   return (
     <ScrollView className="flex-1 bg-white ">
       <View className="bg-black">
-        <Text className="text-white text-5xl pt-20 font-[Sans] uppercase text-center">
+        <Text className="text-pinktdx text-5xl pt-12 font-[Sans] uppercase text-center">
           Official Speakers
         </Text>
 
@@ -18,12 +20,17 @@ export default function TabThreeScreen() {
       </View>
 
       <Image
-        source={require("@/assets/images/waves.png")}
+        source={require("@/assets/images/elipse.png")}
         style={{ width: "100%", height: 100 }}
       />
-      <View className="h-12">
-        <Text className="text-center">Waiting info Speakers .....</Text>
+
+      { /*card Start*/}
+
+
+      <View className="p-4">
+         <Card /> 
       </View>
+      { /*card End*/}
       <View className="pt-10 pb-10 bg-white">
         <Text className="text-deep-blue text-4xl uppercase font-[Sans] font-semibold  text-center">
           Schedules
@@ -37,7 +44,17 @@ export default function TabThreeScreen() {
         />
       </View>
 
-  
+      <View className="p-4">
+      <View className="h-16 bg-pinktdx w-full flex  justify-center rounded rounded-t-3xl  ">
+        <Text className="font-[Sans] text-xl text-white pl-7 uppercase ">
+          Speakers Lineup
+        </Text>
+      </View>
+
+      </View>
+
+<MiniCard/>
+
       <Footer />
     </ScrollView>
   );
