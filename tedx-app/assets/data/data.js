@@ -26,7 +26,7 @@ const infoSpeaker = [
     id: 3,
     name: "Francisco Ackermann",
     subtitle: "Influencer y Escritor Best Seller Financiero",
-    photo_url: require("Franciscoackermann.png"),
+    photo_url: require("../images/FranciscoAckermann.png"),
     description:
       "Francisco Ackermann, es un destacado influencer financiero del país impactando a más de 1 millón de personas a través de sus Redes Sociales en un tema considerado árdo como son las finanzas personales. Autor del libro “Con Peras y Finanzas”, Best Seller en 2023 y su nueva obra “Con Peras e Inversiones” qué a pocas semanas de lanzamiento alcanzó el ranking top 10 de ventas en chile. Su pasión por informar en simple sobre ahorro e inversiones, lo ha llevado a crear disitintas instancias donde poder aprender, como su PodCast con el mismo nombre del libro y que llegó al top 3 de programas más escuchados a lo largo del país. Emprendedor y fundador de Finup, primer Streaming de educación financiera del país con una visión de impactar en la vida de 100 millones de personas acercando las finanzas en simple.",
     web: "https://www.finup.cl/",
@@ -37,7 +37,7 @@ const infoSpeaker = [
     id: 4,
     name: "María Paz Valenzuela",
     subtitle: "Montañista, Activista pro detección precoz del cancer de mama",
-    photo_url: require("../images/Mariapazvalenzuela.png"),
+    photo_url: require("../images/MariaPazValenzuela.png"),
     description:
       "María Paz Valenzuela, montañista. El año 2017 fue diagnosticada con cancer de mama y el 2018 hace cumbre en el Everest llevando la bandera de su expedición “Alto al Cancer”. Desde entonces trabaja en su campaña por la detección precoz del cancer de mama. Actualmente realiza actividades como guía de montaña y charlas relatando su experiencia para concientizar sobre la importancia de la detección precoz.",
     web: "https://www.vertical.cl/",

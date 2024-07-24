@@ -39,7 +39,8 @@ module.exports = {
           BigShoulders: ['BigShoulderTextthin'],
           Sans:["OpenSans-Bold"]
         },
-      },
+        
+      }
     },
     plugins: [],
   }
