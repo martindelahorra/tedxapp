@@ -1,9 +1,11 @@
 import react from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import Footer from '@/components/Footer';
-import data from '@/assets/data/data.js'
+import data from '@/assets/data/data.js';
 
-export default function no() {
+
+
+export default function Card() {
   return (
     <ScrollView className="flex-1 bg-white ">
        {data.map((item)=>(
