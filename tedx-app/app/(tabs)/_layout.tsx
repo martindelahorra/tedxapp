@@ -6,6 +6,7 @@ import TabThreeScreen from "./catalog";
 import { Image } from "react-native";
 import RegisterScreen from "./register";
 import LoginScreen from "./login";
+import speakerDetail from "./[id]";
 
 const Drawer = createDrawerNavigator();
 
@@ -28,6 +29,15 @@ export default function App() {
         <Drawer.Screen name="Catalog" component={TabThreeScreen} />
         <Drawer.Screen name="Registrarse" component={RegisterScreen} />
         <Drawer.Screen name="Iniciar Sesion" component={LoginScreen} />
+        <Drawer.Screen 
+          name="SpeakerDetail" 
+          component={speakerDetail}
+          options={{ 
+            drawerLabel: () => null,
+            headerShown: true,
+            headerTitle: "Detalles",
+          }}
+        />
       </Drawer.Navigator>
     </GestureHandlerRootView>
   );
