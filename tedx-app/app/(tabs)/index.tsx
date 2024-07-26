@@ -9,52 +9,87 @@ import {
   ScrollView,
   Image,
   ImageBackground,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
+import * as Calendar from 'expo-calendar';
+import { CountUp } from 'use-count-up';
+import Toast from 'react-native-root-toast';
+import { RootSiblingParent } from 'react-native-root-siblings';
+
+
+const createCalendarEvents = async () => {
+  
+  const { status } = await Calendar.requestCalendarPermissionsAsync();
+  if (status === 'granted') {
+    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    let calendarId;
+
+    // Check if a calendar already exists, otherwise create one
+    if (calendars.length > 0) {
+      calendarId = calendars[0].id;
+    } 
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // const eventDetails1 = {
+    //   title: 'Event 1',
+    //   startDate: new Date(tomorrow.setHours(10, 0, 0)),
+    //   endDate: new Date(tomorrow.setHours(11, 0, 0)),
+    //   timeZone: 'GMT',
+    //   location: 'Location 1',
+    // };
+
+    const eventDetails2 = {
+      title: 'Evento TEDx Vitacura',
+      startDate: new Date(tomorrow.setHours(18, 0, 0)),
+      endDate: new Date(tomorrow.setHours(20, 0, 0)),
+      timeZone: 'GMT',
+      location: 'Location 2',
+    };
+
+    if (calendarId) {
+      // const eventId1 = await Calendar.createEventAsync(calendarId, eventDetails1);
+      // console.log(`Event 1 created with ID: ${eventId1}`);
+      const eventId2 = await Calendar.createEventAsync(calendarId, eventDetails2);
+      console.log(`Event 2 created with ID: ${eventId2}`);
+    } else {
+      console.log('Calendar ID is undefined');
+      
+    }
+    
+
+    
+  } else {
+    console.log('Calendar permission not granted');
+  }
+  Toast.show('The events add to your Calendar', {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    onShow: () => {
+        // calls on toast\`s appear animation start
+    },
+    onShown: () => {
+        // calls on toast\`s appear animation end.
+    },
+    onHide: () => {
+        // calls on toast\`s hide animation start.
+    },
+    onHidden: () => {
+        // calls on toast\`s hide animation end.
+    }
+});
+};
+
+
 
 export default function HomeScreen() {
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [count3, setCount3] = useState(0);
-  const limit1 = 12;
-  const limit2 = 20;
-  const limit3 = 360;
-  const totalTime = 10000;
-
-  const increment1 = limit1 / (totalTime / 1000);
-  const increment2 = limit2 / (totalTime / 1000);
-  const increment3 = limit3 / (totalTime / 1000);
-
-  useEffect(() => {
-    if (count1 < limit1) {
-      const interval = setInterval(() => {
-        setCount1((prevCount) =>
-          Math.min(limit1, Math.floor(prevCount + increment1))
-        );
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [count1, limit1]);
-
-  useEffect(() => {
-    if (count2 < limit2) {
-      const interval = setInterval(() => {
-        setCount2((prevCount) => prevCount + increment2);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [count2, limit2]);
-
-  useEffect(() => {
-    if (count3 < limit3) {
-      const interval = setInterval(() => {
-        setCount3((prevCount) => prevCount + increment3);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [count3, limit3]);
-
   return (
+    <RootSiblingParent>
     <ScrollView className="flex-1 bg-white ">
       <View className="bg-black">
         <ImageBackground
@@ -105,10 +140,13 @@ export default function HomeScreen() {
           </View>
         </ImageBackground>
         {/* <Text className="bg-white">Holii</Text> */}
+        <View className="p-4">
+            <Button title="Create Events in My Calendar" onPress={createCalendarEvents} color="red" />
+        </View>
         <View className="flex-1 bg-white items-center justify-center p-4">
           <View className="mb-8">
             <Text className="text-red-600 text-4xl font-bold text-center">
-              {count1}HR
+              <CountUp isCounting end={12} duration={3.2} /> HR
             </Text>
             <Text className="text-black text-2xl font-bold mb-2">
               Inspiración
@@ -116,13 +154,13 @@ export default function HomeScreen() {
           </View>
           <View className="mb-8">
             <Text className="text-red-600 text-4xl font-bold ex text-center">
-              {count2}
+              <CountUp isCounting end={20} duration={3.2} />
             </Text>
             <Text className="text-black text-2xl font-bold mb-2">Speakers</Text>
           </View>
           <View className="mb-8">
             <Text className="text-red-600 text-4xl font-bold text-center">
-              {count3}min
+              <CountUp isCounting end={360} duration={3.2} />min
             </Text>
             <Text className="text-black text-2xl font-bold mb-2">
               Actividades
@@ -158,6 +196,7 @@ export default function HomeScreen() {
             className="w-3/4 h-32 mt-4"
             resizeMode="contain"
           />
+          
           <View>
             <Text className="text-black text-2xl font-[Roboto] font-bold mb-10">
               ACREDITACIÓN PRENSA
@@ -175,5 +214,6 @@ export default function HomeScreen() {
 
       <Footer />
     </ScrollView>
+    </RootSiblingParent>
   );
 }

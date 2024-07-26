@@ -1,8 +1,9 @@
 import react from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Button } from "react-native";
 import Footer from "@/components/Footer";
 import Card from "@/components/Card";
 import MiniCard from "@/components/MiniCard";
+
 
 export default function TabThreeScreen() {
   return (
@@ -23,7 +24,6 @@ export default function TabThreeScreen() {
         source={require("@/assets/images/elipse.png")}
         style={{ width: "100%", height: 100 }}
       />
-
       { /*card Start*/}
 
 
@@ -43,17 +43,18 @@ export default function TabThreeScreen() {
           className=" mx-auto w-52 h-2"
         />
       </View>
-
+      
       <View className="p-4">
-      <View className="h-16 bg-pinktdx w-full flex  justify-center rounded rounded-t-3xl  ">
-        <Text className="font-[Sans] text-xl text-white pl-7 uppercase ">
-          Speakers Lineup
-        </Text>
-      </View>
+        
+        <View className="h-16 bg-pinktdx w-full flex  justify-center rounded rounded-t-3xl  ">
+          <Text className="font-[Sans] text-xl text-white pl-7 uppercase ">
+            Speakers Lineup
+          </Text>
+        </View>
 
       </View>
 
-<MiniCard/>
+      <MiniCard/>
 
       <Footer />
     </ScrollView>

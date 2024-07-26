@@ -25,7 +25,7 @@ export default function App() {
       >
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Explore" component={TabTwoScreen} />
-        <Drawer.Screen name="Catalog" component={TabThreeScreen} />
+        <Drawer.Screen name="Speakers" component={TabThreeScreen} />
         <Drawer.Screen name="Registrarse" component={RegisterScreen} />
         <Drawer.Screen name="Iniciar Sesion" component={LoginScreen} />
       </Drawer.Navigator>
