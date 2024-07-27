@@ -1,67 +1,67 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator , } from 'react-native';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
-import { useRoute } from '@react-navigation/native';
-import infoSpeaker from '@/assets/data/data';
-
-interface Speaker {
-  id: number;
-  name: string;
-  subtitle: string;
-  photo_url: string;
-  description: string;
-  web: string;
-  social: string;
-  time: string;
-}
+import { RouteProp } from '@react-navigation/native';
+import data from '@/assets/data/data';
 
 
-export default function SpeakerDetail() {
-  const route = useRoute();
-  const router = useRouter();
-  const { id } = route.params as { id: number };
-  const [speaker, setSpeaker] = useState<Speaker | null>(null);
+
+type RootStackParamList = {
+  SpeakerDetail: { speakerId: number };
+};
+
+type SpeakerDetailRouteProp = RouteProp<RootStackParamList, 'SpeakerDetail'>;
+
+type SpeakerDetailProps = {
+  route: SpeakerDetailRouteProp;
+};
+
+
+export default function SpeakerDetail({ route }: SpeakerDetailProps) {
+
+  const { speakerId } = route.params;
+  const [speaker, setSpeaker] = useState<typeof data[0] | null>(null);
 
   useEffect(() => {
-    console.log('Speaker ID:', id);
-    const foundSpeaker = infoSpeaker.find(s => s.id === id);
-    console.log('Found Speaker:', foundSpeaker);
-    setSpeaker(foundSpeaker || null);
-  }, [id]);
+    const fetchSpeaker = () => {
+    const foundSpeaker = data.find(s => s.id === speakerId);
+      setSpeaker(foundSpeaker || null);
+    };
+
+    fetchSpeaker();
+  }, [speakerId]);
 
   if (!speaker) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-xl">Speaker not found</Text>
-        <TouchableOpacity
-          className="mt-4 bg-pinktdx py-2 px-4 rounded"
-          onPress={() => router.back()}
-        >
-          <Text className="text-white">Go Back</Text>
-        </TouchableOpacity>
+      <View >
+        <ActivityIndicator size="large" color="#FF0080" />
       </View>
     );
   }
+
   
 
   return (
-    <ScrollView className="flex-1 bg-white">
-      <Image source={  speaker.photo_url } className="w-full h-64 object-cover" />
-      <View className="p-4">
-        <Text className="text-2xl font-bold font-[Sans]">{speaker.name}</Text>
-        <Text className="text-xl text-gray-500 font-[Outfit]">{speaker.subtitle}</Text>
-        <Text className="mt-4 font-[Outfit]">{speaker.description}</Text>
-        <Text className="mt-2 font-[Outfit]">Website: {speaker.web}</Text>
-        <Text className="mt-2 font-[Outfit]">Social: {speaker.social}</Text>
-        <Text className="mt-2 font-[Outfit]">Time: {speaker.time}</Text>
-        <TouchableOpacity
-          className="mt-6 bg-pinktdx py-2 px-4 rounded"
-          onPress={() => router.back()}
-        >
-          <Text className="text-white text-center font-[Sans]">Back to Speakers</Text>
-        </TouchableOpacity>
+    <ScrollView >
+      <View className='flex-1'>
+        <Image
+        source={speaker.photo_url}
+        className='object-cover w-full h-96'
+        />
+        <View >
+          <Text className='text-3xl text-pinktdx'>{speaker.name}</Text>
+          <Text className='text-white text-md font-[Outfit]'>{speaker.subtitle}</Text>
+        </View>
+
+        <View>
+        <Text>
+            Card Review
+          </Text> 
+        </View>
+
       </View>
+
     </ScrollView>
   );
 }
+

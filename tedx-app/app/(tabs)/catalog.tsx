@@ -1,5 +1,5 @@
 import react from "react";
-import { View, Text, Image, ScrollView, Button, Pressable } from "react-native";
+import { View, Text, Image, ScrollView, Button, Pressable, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import Footer from "@/components/Footer";
@@ -7,34 +7,18 @@ import Card from "@/components/Card";
 import MiniCard from "@/components/MiniCard";
 import data from "@/assets/data/data";
 
-interface Speaker {
-  id: number;
-  name: string;
-  subtitle: string;
-  photo_url: any;
-  description: string;
-  web: string;
-  social: string;
-  time: string;
-}
+//
 
-type RootDrawerParamList = {
-  Home: undefined;
-  Explore: undefined;
-  Catalog: undefined;
-  Registrarse: undefined;
-  'Iniciar Sesion': undefined;
-  SpeakerDetail: { id: number };
+type RootStackParamList = {
+  SpeakerDetail: { speakerId: number };
+
 };
 
-type CatalogScreenNavigationProp = DrawerNavigationProp<RootDrawerParamList, 'Catalog'>;
-
-
 export default function TabThreeScreen() {
-  const navigation = useNavigation<CatalogScreenNavigationProp>();
 
-  const handleSpeakerPress = (speaker: Speaker) => {
-    navigation.navigate('SpeakerDetail', { id: speaker.id});
+  const navigation = useNavigation<DrawerNavigationProp<RootStackParamList>>();
+  const handleSpeakerPress = (speakerId: number) => {
+    navigation.navigate('SpeakerDetail', { speakerId  });
   };
 
   return (
@@ -56,13 +40,18 @@ export default function TabThreeScreen() {
         style={{ width: "100%", height: 100 }}
       />
 
-        <View className="p-4">
-          {data.map((item) =>(
-            <Pressable key={item.id} onPress={() => handleSpeakerPress(item)}>
+        {/* <View className="p-4">
               <Card/>
-            </Pressable>  
-          ))} 
-        </View>
+        </View> */}
+
+        <View className="p-4">
+        {data.map((speaker) => (
+          <TouchableOpacity key={speaker.id} onPress={() => handleSpeakerPress(speaker.id)}>
+            <Card speaker={speaker} />
+          </TouchableOpacity>
+        ))}
+      </View>
+      
       { /*card End*/}
       <View className="pt-10 pb-10 bg-white">
         <Text className="text-deep-blue text-4xl uppercase font-[Sans] font-semibold  text-center">
