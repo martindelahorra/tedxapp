@@ -8,51 +8,55 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { auth } from '../../firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import forgot from "./forgotPassword";
 
-export default function LoginScreen() {
+export default function RecoverPasswordScreen() {
   const [correo, setCorreo] = useState("");
-  const [contraseña, setContraseña] = useState("");
   const [errorCorreo, setErrorCorreo] = useState("");
-  const [errorContraseña, setErrorContraseña] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleRecoverPassword = () => {
     setErrorCorreo("");
-    setErrorContraseña("");
+    setLoading(false);
+    setMessage("");
+
+    // Validación de campo vacío
+    if (!correo) {
+      setErrorCorreo("El campo de correo no puede estar vacío.");
+      return;
+    }
+
+    // Validación de formato de correo
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      setErrorCorreo("Correo no válido.");
+      return;
+    }
+
     setLoading(true);
 
-    signInWithEmailAndPassword(auth, correo, contraseña)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("Usuario logueado con éxito:", user.email);
-        // Simular el tiempo de espera de 2 segundos
+    sendPasswordResetEmail(auth, correo)
+      .then(() => {
+        setMessage("Correo de recuperación enviado.");
         setTimeout(() => {
           setLoading(false);
-          navigation.navigate('Home'); // Cambia 'Home' por el nombre correcto de tu pantalla principal
+          navigation.navigate('Iniciar Sesion');
         }, 2000);
       })
       .catch((error) => {
-        console.error(error);
         setLoading(false);
         if (error.code === 'auth/invalid-email') {
           setErrorCorreo("Correo no válido.");
         } else if (error.code === 'auth/user-not-found') {
           setErrorCorreo("Usuario no encontrado.");
-        } else if (error.code === 'auth/wrong-password') {
-          setErrorContraseña("Contraseña incorrecta.");
         } else {
-          setErrorContraseña(error.message);
+          setErrorCorreo(error.message);
         }
       });
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate('ForgotPassword'); // Cambia 'RecoverPassword' por el nombre correcto de tu pantalla de recuperación
   };
 
   return (
@@ -60,36 +64,25 @@ export default function LoginScreen() {
       {loading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#d51523" />
-          <Text style={styles.loadingText}>Iniciando sesión...</Text>
+          <Text style={styles.loadingText}>{message || "Enviando correo de recuperación..."}</Text>
         </View>
       )}
       <Text style={{ margin: 10, maxWidth: 400, color: "white" }}>
-        Ingresa tus datos:
+        Ingresa tu correo para recuperar tu contraseña
       </Text>
       <TextInput
         style={styles.input}
         placeholder="Correo*"
         placeholderTextColor="white"
         onChangeText={setCorreo}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
       {errorCorreo ? <Text style={styles.errorText}>{errorCorreo}</Text> : null}
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña*"
-        placeholderTextColor="white"
-        secureTextEntry={true}
-        onChangeText={setContraseña}
-      />
-      {errorContraseña ? <Text style={styles.errorText}>{errorContraseña}</Text> : null}
       <Button
-        title="Iniciar Sesión"
+        title="Recuperar contraseña"
         color="#d51523"
-        onPress={handleLogin}
-      />
-      <Button
-        title="Olvidé mi contraseña"
-        color="#d51523"
-        onPress={handleForgotPassword}
+        onPress={handleRecoverPassword}
       />
     </View>
   );
