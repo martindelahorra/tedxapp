@@ -18,23 +18,20 @@ type CardProps = {
 
 export default function Card({ speaker }: CardProps) {
   return (
-    <ScrollView className="flex-1 bg-white ">
-
-        <View key={speaker.id} className="rounded-lg overflow-hidden w-full max-w-md  mb-10">
-          <Image
-            source={speaker.photo_url}
-            className=" object-cover w-full h-96"
-          />
-          <View className="p-4 absolute bottom-0 w-full backdrop-blur-xl bg-zinc-950/90 rounded-md ">
-            <Text className="text-xl font-[Sans] text-pinktdx">
-            {speaker.name}
-            </Text>
-            <Text className="text-white text-md font-[Outfit]">
-            {speaker.subtitle}
-            </Text>
+    <View className="bg-gray-200 rounded-3xl overflow-hidden mx-2.5 my-1.5">
+      <View className="flex-row justify-between items-center p-4">
+        <View className="flex-1 mr-2.5">
+          <View className="flex-row items-center mb-1.5">
+            {/* <ChevronRight stroke="red" width={24} height={24} /> */}
+            <Text className="text-lg font-bold text-black ml-1">nombre</Text>
           </View>
+          <Text className="text-sm text-gray-600">descripcion</Text>
         </View>
- 
-    </ScrollView>
+        <Image 
+        
+          className="w-20 h-20 rounded-full"
+        />
+      </View>
+    </View>
   );
 }

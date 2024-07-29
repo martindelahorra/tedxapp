@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import Card from "@/components/Card";
 import MiniCard from "@/components/MiniCard";
 import data from "@/assets/data/data";
-
+import Rcard from "@/components/ReviewCard"
 //
 
 type RootStackParamList = {
@@ -23,7 +23,7 @@ export default function TabThreeScreen() {
 
   return (
     <ScrollView className="flex-1 bg-white ">
-      <View className="bg-black">
+      <View className="bg-[#141414]">
         <Text className="text-pinktdx text-5xl pt-12 font-[Sans] uppercase text-center">
           Official Speakers
         </Text>
@@ -35,22 +35,44 @@ export default function TabThreeScreen() {
         </Text>
       </View>
 
-      <Image
+      {/* <Image
         source={require("@/assets/images/elipse.png")}
         style={{ width: "100%", height: 100 }}
-      />
+      /> */}
+
+
+    {/* card de las review */}
+     <Rcard />
+    {/* card de las review */}
+
+
+    <View className="bg-gray-200 rounded-3xl overflow-hidden mx-2.5 my-1.5">
+      <View className="flex-row justify-between items-center p-4">
+        <View className="flex-1 mr-2.5">
+          <View className="flex-row items-center mb-1.5">
+            {/* <ChevronRight stroke="red" width={24} height={24} /> */}
+            <Text className="text-lg font-bold text-black ml-1">nombre</Text>
+          </View>
+          <Text className="text-sm text-gray-600">descripcion</Text>
+        </View>
+        <Image 
+          
+          className="w-20 h-20 rounded-full"
+        />
+      </View>
+    </View>
 
         {/* <View className="p-4">
               <Card/>
         </View> */}
 
-        <View className="p-4">
+        {/* <View className="p-4">
         {data.map((speaker) => (
           <TouchableOpacity key={speaker.id} onPress={() => handleSpeakerPress(speaker.id)}>
             <Card speaker={speaker} />
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
       
       { /*card End*/}
       <View className="pt-10 pb-10 bg-white">
