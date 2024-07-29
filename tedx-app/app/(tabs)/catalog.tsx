@@ -61,18 +61,17 @@ export default function TabThreeScreen() {
       </View>
     </View>
 
-        {/* <View className="p-4">
+        {/*<View className="p-4">
               <Card/>
         </View> */}
 
-        {/* <View className="p-4">
+        <View className="p-4">
         {data.map((speaker) => (
           <TouchableOpacity key={speaker.id} onPress={() => handleSpeakerPress(speaker.id)}>
             <Card speaker={speaker} />
           </TouchableOpacity>
         ))}
-      </View> */}
-      
+      </View> 
       <View className="pt-10 pb-10 bg-white">
         <Text className="text-deep-blue text-4xl uppercase font-[Sans] font-semibold text-center">
           Schedules
