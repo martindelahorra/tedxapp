@@ -14,6 +14,7 @@ import * as Calendar from 'expo-calendar';
 import { CountUp } from 'use-count-up';
 import Toast from 'react-native-root-toast';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import MiniCard from "@/components/MiniCard";
 
 const createCalendarEvents = async () => {
   const { status } = await Calendar.requestCalendarPermissionsAsync();
