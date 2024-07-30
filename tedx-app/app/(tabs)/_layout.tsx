@@ -13,10 +13,13 @@ import speakerDetail from "./[id]";
 import { auth, db } from '../../firebaseConfig'; // Asegúrate de que la ruta sea correcta y de haber configurado Firestore
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from "firebase/firestore"; // Importa las funciones necesarias de Firestore
+import { useNavigation } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+  const navigation = useNavigation();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
 
@@ -42,13 +45,18 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setIsLoggedIn(!!user);
+      
+      
       if (user) {
-        //const userDoc = await getDoc(doc(db, "Login", user.uid));
-        const userDoc = await getDoc(doc(db, "Comentarios", 501));
+        
+        const userDoc = await getDoc(doc(db, "Login", user.uid));
+        // const userDoc = await getDoc(doc(db, "Comentarios", 501));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-         //setUserName(`${userData.name} ${userData.lastName}`);
-        setUserName(`${userData.autor}`);
+          console.log(userData);
+          
+          setUserName(`${userData.name} ${userData.lastName}`);
+          // setUserName(`${userData.autor}`);
 
         } else {
           setUserName(`${userData.email}`); // Fallback in case user document does not exist
@@ -65,6 +73,7 @@ export default function App() {
     signOut(auth)
       .then(() => {
         console.log('Usuario desconectado con éxito');
+        navigation.navigate('Iniciar Sesion');
       })
       .catch((error) => {
         console.error('Error al cerrar sesión:', error);
@@ -85,7 +94,6 @@ export default function App() {
             label="Cerrar Sesión"
             onPress={() => {
               handleSignOut();
-              props.navigation.navigate('Iniciar Sesion');
             }}
             style={{ position: 'absolute', bottom: 20, width: '100%' }}
           />
@@ -99,6 +107,7 @@ export default function App() {
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
+          headerTitle: () => null,
           headerTintColor: "white",
           headerRight: () => (
             <Image
@@ -109,13 +118,13 @@ export default function App() {
         }}
       >
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Explore" component={TabTwoScreen} />
+        {/* <Drawer.Screen name="Explore" component={TabTwoScreen} /> */}
         <Drawer.Screen name="Speakers" component={TabThreeScreen} />
         <Drawer.Screen name="Review" component={Review} />
         {!isLoggedIn ? (
           <>
             <Drawer.Screen name="Registrarse" component={RegisterScreen} />
-            <Drawer.Screen name="Iniciar Sesion" component={LoginScreen} />
+            <Drawer.Screen name="Iniciar Sesion"  component={LoginScreen} />
           </>
         ) : null}
         <Drawer.Screen

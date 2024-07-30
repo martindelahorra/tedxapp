@@ -45,6 +45,9 @@ export default function LoginScreen() {
           setErrorCorreo("Usuario no encontrado.");
         } else if (error.code === 'auth/wrong-password') {
           setErrorContraseña("Contraseña incorrecta.");
+        } else if (error.code === 'auth/invalid-credential') {
+          setErrorContraseña("Credenciales no validas.");
+
         } else {
           setErrorContraseña(error.message);
         }
