@@ -45,33 +45,19 @@ export default function TabThreeScreen() {
     {/* card de las review */}
 
 
-    <View className="bg-gray-200 rounded-3xl overflow-hidden mx-2.5 my-1.5">
-      <View className="flex-row justify-between items-center p-4">
-        <View className="flex-1 mr-2.5">
-          <View className="flex-row items-center mb-1.5">
-            {/* <ChevronRight stroke="red" width={24} height={24} /> */}
-            <Text className="text-lg font-bold text-black ml-1">nombre</Text>
-          </View>
-          <Text className="text-sm text-gray-600">descripcion</Text>
-        </View>
-        <Image 
-          
-          className="w-20 h-20 rounded-full"
-        />
-      </View>
-    </View>
+ 
 
         {/* <View className="p-4">
               <Card/>
-        </View> */}
+        </View>  */}
 
-        {/* <View className="p-4">
+        <View className="gap-y-10">
         {data.map((speaker) => (
           <TouchableOpacity key={speaker.id} onPress={() => handleSpeakerPress(speaker.id)}>
             <Card speaker={speaker} />
           </TouchableOpacity>
         ))}
-      </View> */}
+      </View>
       
       <View className="pt-10 pb-10 bg-white">
         <Text className="text-deep-blue text-4xl uppercase font-[Sans] font-semibold text-center">

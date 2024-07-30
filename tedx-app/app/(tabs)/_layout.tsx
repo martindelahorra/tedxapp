@@ -6,6 +6,7 @@ import HomeScreen from "./index";
 import TabTwoScreen from "./explore";
 import TabThreeScreen from "./catalog";
 import RegisterScreen from "./register";
+import Review from "./Review"
 import LoginScreen from "./login";
 import ForgotPassword from "./forgotPassword";
 import speakerDetail from "./[id]";
@@ -19,16 +20,38 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
 
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     setIsLoggedIn(!!user);
+  //     if (user) {
+  //       const userDoc = await getDoc(doc(db, "Login", user.uid));
+  //       if (userDoc.exists()) {
+  //         const userData = userDoc.data();
+  //         setUserName(`${userData.name} ${userData.lastName}`);
+  //       } else {
+  //         setUserName(user.email); // Fallback in case user document does not exist
+  //       }
+  //     } else {
+  //       setUserName("");
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setIsLoggedIn(!!user);
       if (user) {
-        const userDoc = await getDoc(doc(db, "Login", user.uid));
+        //const userDoc = await getDoc(doc(db, "Login", user.uid));
+        const userDoc = await getDoc(doc(db, "Comentarios", 501));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserName(`${userData.name} ${userData.lastName}`);
+         //setUserName(`${userData.name} ${userData.lastName}`);
+        setUserName(`${userData.autor}`);
+
         } else {
-          setUserName(user.email); // Fallback in case user document does not exist
+          setUserName(`${userData.email}`); // Fallback in case user document does not exist
         }
       } else {
         setUserName("");
@@ -88,6 +111,7 @@ export default function App() {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Explore" component={TabTwoScreen} />
         <Drawer.Screen name="Speakers" component={TabThreeScreen} />
+        <Drawer.Screen name="Review" component={Review} />
         {!isLoggedIn ? (
           <>
             <Drawer.Screen name="Registrarse" component={RegisterScreen} />

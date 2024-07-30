@@ -1,7 +1,4 @@
-import react from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-import Footer from '@/components/Footer';
-import data from '@/assets/data/data.js';
 
 
 type Speaker = {
@@ -18,19 +15,20 @@ type CardProps = {
 
 export default function Card({ speaker }: CardProps) {
   return (
-    <View className="bg-gray-200 rounded-3xl overflow-hidden mx-2.5 my-1.5">
-      <View className="flex-row justify-between items-center p-4">
-        <View className="flex-1 mr-2.5">
-          <View className="flex-row items-center mb-1.5">
-            {/* <ChevronRight stroke="red" width={24} height={24} /> */}
-            <Text className="text-lg font-bold text-black ml-1">nombre</Text>
-          </View>
-          <Text className="text-sm text-gray-600">descripcion</Text>
+    <View className=" flex-1 rounded-xl min-h-20 max-h-20  bg-[#141414] pl-4 pr-4 ">
+      <View className=" flex-row justify-between max-w-[400px] h-20  ">
+        <View className="min-h-20 max-h-16 max-w-[230px]  border-red-500 mt-1 flex align-middle text-center ">
+        <Text className="text-lg text-white font-[Sans]">{speaker.name}</Text>
+        {/* <Text className="text-md font-light text-white text-left">{speaker.subtitle}</Text> */}
         </View>
-        <Image 
-        
-          className="w-20 h-20 rounded-full"
+      <View className="w-28 h-28 bottom-8">
+      <Image 
+          source={speaker.photo_url}
+          className="h-28 w-28 object-cover  rounded-xl"
         />
+        </View>  
+     
+
       </View>
     </View>
   );
