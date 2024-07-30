@@ -52,7 +52,7 @@ export default function TabThreeScreen() {
         </View>  */}
 
 
-        <View className="gap-y-10">
+        <View className="gap-y-10 mx-auto min-w-min">
 
         {data.map((speaker) => (
           <TouchableOpacity key={speaker.id} onPress={() => handleSpeakerPress(speaker.id)}>
