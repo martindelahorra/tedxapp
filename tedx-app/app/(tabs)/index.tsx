@@ -1,115 +1,72 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Footer from "@/components/Footer";
 import {
+  Button,
   Text,
   View,
   ScrollView,
   Image,
   ImageBackground,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { WebView } from "react-native-webview";
-import { Ionicons } from "@expo/vector-icons";
+import Star from "@expo/vector-icons/Ionicons";
 import * as Calendar from "expo-calendar";
 import { CountUp } from "use-count-up";
 import Toast from "react-native-root-toast";
 import { RootSiblingParent } from "react-native-root-siblings";
-import { db } from '@/firebaseConfig';
-import { collection, query, orderBy, where, limit, getDocs } from 'firebase/firestore';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import MiniCard from "@/components/MiniCard";
 
-const HomeScreen = () => {
-  const [comments, setComments] = useState([]);
-  const navigation = useNavigation();
-
-  const handleReviewButtonPress = () => {
-    navigation.navigate('Review');
-  };
-
-  const createCalendarEvents = async () => {
-    const { status } = await Calendar.requestCalendarPermissionsAsync();
-    if (status === "granted") {
-      const calendars = await Calendar.getCalendarsAsync(
+const createCalendarEvents = async () => {
+  const { status } = await Calendar.requestCalendarPermissionsAsync();
+  if (status === "granted") {
+    const calendars = await Calendar.getCalendarsAsync(
       Calendar.EntityTypes.EVENT
     );
-      let calendarId;
+    let calendarId;
 
-      if (calendars.length > 0) {
-        calendarId = calendars[0].id;
-      }
+    if (calendars.length > 0) {
+      calendarId = calendars[0].id;
+    }
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-      const eventDetails2 = {
-        title: "Evento TEDx Vitacura",
-        startDate: new Date(tomorrow.setHours(18, 0, 0)),
-        endDate: new Date(tomorrow.setHours(20, 0, 0)),
-        timeZone: "GMT",
-        location: "Location 2",
-      };
+    const eventDetails2 = {
+      title: "Evento TEDx Vitacura",
+      startDate: new Date(tomorrow.setHours(18, 0, 0)),
+      endDate: new Date(tomorrow.setHours(20, 0, 0)),
+      timeZone: "GMT",
+      location: "Location 2",
+    };
 
-      if (calendarId) {
-        const eventId2 = await Calendar.createEventAsync(
+    if (calendarId) {
+      const eventId2 = await Calendar.createEventAsync(
         calendarId,
         eventDetails2
       );
-        console.log(`Event 2 created with ID: ${eventId2}`);
-      } else {
-        console.log("Calendar ID is undefined");
-      }
+      console.log(`Event 2 created with ID: ${eventId2}`);
     } else {
-      console.log("Calendar permission not granted");
+      console.log("Calendar ID is undefined");
     }
-    Toast.show("The events add to your Calendar", {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-  };
+  } else {
+    console.log("Calendar permission not granted");
+  }
+  Toast.show("The events add to your Calendar", {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+  });
+};
 
 export default function HomeScreen() {
   // Asegúrate de que recibe navigation
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + '...'; 
-    }
-    return text;
-  };
-
-  const fetchComments = async () => {
-    try {
-      const q = query(collection(db, "Comentarios"), where("valoracion", ">=", 4), orderBy("createdAt", "desc"), limit(10));
-      const querySnapshot = await getDocs(q);
-      const commentsList = querySnapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          autor: data.autor || "Autor desconocido",
-          charlaId: data.idCharla,
-          comentario: data.comentario || "Comentario no disponible",
-          valoracion: data.valoracion || 0,
-          createdAt: data.createdAt || ""
-        };
-      });
-      setComments(commentsList);
-    } catch (error) {
-      console.error("Error fetching comments: ", error);
-    }
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchComments();
-    }, [])
-  );
-
   return (
     <RootSiblingParent>
       <ScrollView className="flex-1 bg-white ">
@@ -152,6 +109,9 @@ export default function HomeScreen() {
               {/* Add more cards as needed */}
             </ScrollView>
           </View>
+          {/* <View className="p-4">
+            <Button title="Create Events in My Calendar" onPress={createCalendarEvents} color="red" />
+          </View>  */}
           <View className="flex-1 bg-white items-center justify-center p-4">
             <View className="mb-8">
               <Text className="text-red-600 text-4xl font-[Alata] text-center">
@@ -273,7 +233,7 @@ export default function HomeScreen() {
             resizeMode="cover"
             className="h-auto justify-center items-center"
           >
-            <Text className="bg-red-600 text-3xl font-[Roboto] font-extrabold mb-2 mt-4">
+            <Text className="text-pinktdx text-3xl font-[Roboto] font-extrabold mb-2 mt-4">
               UN VIAJE
             </Text>
             <Text className="text-white text-2xl font-extrabold mb-4  font-[Sans]">
@@ -300,26 +260,4 @@ export default function HomeScreen() {
       </ScrollView>
     </RootSiblingParent>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  hr: {
-    width: '100%', // Ancho de la línea
-    height: .5, // Altura de la línea
-    backgroundColor: 'grey', // Color de la línea
-    marginTop: 5, // Espacio arriba y abajo de la línea
-    marginBottom: 12,
-  },
-});
-
-export default HomeScreen;
+}
