@@ -14,6 +14,7 @@ import { auth, db } from '../../firebaseConfig'; // Asegúrate de que la ruta se
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from "firebase/firestore"; // Importa las funciones necesarias de Firestore
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Drawer = createDrawerNavigator();
 
@@ -73,7 +74,7 @@ export default function App() {
     signOut(auth)
       .then(() => {
         console.log('Usuario desconectado con éxito');
-        navigation.navigate('Iniciar Sesion');
+        navigation.navigate('Iniciar Sesión');
       })
       .catch((error) => {
         console.error('Error al cerrar sesión:', error);
@@ -95,7 +96,10 @@ export default function App() {
             onPress={() => {
               handleSignOut();
             }}
-            style={{ position: 'absolute', bottom: 20, width: '100%' }}
+            icon={({ color, size }) => (
+              <Ionicons name="log-out-outline" color={color} size={size} />
+            )}
+            style={{ position: 'absolute', bottom: 20, width: '100%',}}
           />
         )}
       </DrawerContentScrollView>
@@ -117,14 +121,32 @@ export default function App() {
           ),
         }}
       >
-        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Home" component={HomeScreen}  
+        options={{drawerIcon: ({color, size}) => (
+        <Ionicons name="home-outline" size={size} color={color} />)}} />
+
         {/* <Drawer.Screen name="Explore" component={TabTwoScreen} /> */}
-        <Drawer.Screen name="Speakers" component={TabThreeScreen} />
-        <Drawer.Screen name="Review" component={Review} />
+        <Drawer.Screen name="Speakers" component={TabThreeScreen}
+          options={{drawerIcon: ({color, size}) => 
+        (<Ionicons name="people-outline" size={size} color={color} />)}}/>
+
+        {isLoggedIn ? (
+        <Drawer.Screen name="Review" component={Review} 
+          options={{drawerIcon: ({color, size}) => (
+        <Ionicons name="star-outline" size={size} color={color} />)}} />
+        ) : null}
+    
+        
         {!isLoggedIn ? (
           <>
-            <Drawer.Screen name="Registrarse" component={RegisterScreen} />
-            <Drawer.Screen name="Iniciar Sesion"  component={LoginScreen} />
+            <Drawer.Screen name="Registrarse" component={RegisterScreen}
+            options={{drawerIcon: ({color, size}) => (
+              <Ionicons name="person-add-outline" size={size} color={color} />)}} />
+            <Drawer.Screen name="Iniciar Sesión"   options={{
+    drawerIcon: ({color, size}) => (
+      <Ionicons name="log-in-outline" size={size} color={color} />
+    )
+  }}  component={LoginScreen} />
           </>
         ) : null}
         <Drawer.Screen

@@ -33,7 +33,7 @@ const MiniCard = () => {
 
   return (
     <View className="flex-1 p-4">
-      <View className="flex-row flex-wrap justify-center mb-4">
+      <View className="flex-row  justify-center mb-4">
         <FilterButton title="Block A" onPress={() => setFilter('A')} isActive={filter === 'A'} />
         <FilterButton title="Block B" onPress={() => setFilter('B')} isActive={filter === 'B'} />
         <FilterButton title="Block C" onPress={() => setFilter('C')} isActive={filter === 'C'} />
