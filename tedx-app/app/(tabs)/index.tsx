@@ -26,6 +26,7 @@ import {
 } from "firebase/firestore";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WebView } from "react-native-webview";
+import Fontisto from "@expo/vector-icons/Fontisto";
 
 const HomeScreen = () => {
   const [comments, setComments] = useState([]);
@@ -122,6 +123,12 @@ const HomeScreen = () => {
     <RootSiblingParent>
       <ScrollView className="flex-1 bg-white">
         <View className="bg-black">
+          <Text
+            className="text-white text-2xl font-[Roboto] font-bold mb-10"
+            style={{ marginBottom: 0, marginLeft: 10, fontSize: 15 }}
+          >
+            Señal en Vivo <Fontisto name="record" size={12} color="red" />
+          </Text>
           <WebView
             scalesPageToFit={true}
             bounces={false}
