@@ -72,6 +72,16 @@ export default function HomeScreen() {
       <ScrollView className="flex-1 bg-white ">
         <View className="bg-black">
           {/* principal del landing */}
+          <WebView
+            scalesPageToFit={true}
+            bounces={false}
+            javaScriptEnabled
+            style={{ height: 300 }}
+            source={{
+              html: `<iframe src="https://vimeo.com/event/4479994/embed/0a159f1bd0" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"></iframe>`,
+            }}
+            automaticallyAdjustContentInsets={false}
+          />
 
           <View className="p-4 bg-white">
             <ScrollView
