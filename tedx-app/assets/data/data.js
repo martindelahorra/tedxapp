@@ -1,4 +1,5 @@
 
+
 const infoSpeaker = [
   {
     id: 1,
@@ -216,6 +217,11 @@ const infoSpeaker = [
     social: "",
     time:"21:00 - 21:20"
   },
+
 ];
 
+
+
+
 export default infoSpeaker;
+

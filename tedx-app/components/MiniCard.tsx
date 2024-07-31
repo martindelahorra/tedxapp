@@ -8,37 +8,74 @@ const FilterButton = ({ title, onPress, isActive }) => (
     onPress={onPress}
     className={`px-4 py-2 rounded-full mx-1 ${isActive ? 'bg-bg-red' : 'bg-bg-disabled'}`}
   >
-    <Text className={`${isActive ? 'text-white' : 'text-white'}`}>{title}</Text>
+    <Text className={`${isActive ? 'text-white' : 'text-white'}` }>{title}</Text>
   </TouchableOpacity>
 );
+
+
 
 const MiniCard = () => {
   const [filter, setFilter] = useState('A');
   const itemsPerPage = 5;
 
   const filterData = (items) => {
+    // Helper function to extract start time
+    const getStartTime = (timeRange) => {
+      return timeRange.split(' - ')[0];
+    };
+
+    // Sort function
+    const sortByStartTime = (a, b) => {
+      const aTime = getStartTime(a.time);
+      const bTime = getStartTime(b.time);
+      return aTime.localeCompare(bTime);
+    };
+
     switch (filter) {
       case 'A':
-        return items.filter(item => item.time >= '09:20' && item.time < '11:00').slice(0, itemsPerPage);
+        return items
+          .filter(item => {
+            const startTime = getStartTime(item.time);
+            return startTime >= '09:20' && startTime < '11:00';
+          })
+          .sort(sortByStartTime)
+          .slice(0, itemsPerPage);
       case 'B':
-        return items.filter(item => item.time >= '12:30' && item.time < '15:00').slice(0, itemsPerPage);
+        return items
+          .filter(item => {
+            const startTime = getStartTime(item.time);
+            return startTime >= '12:30' && startTime < '15:00';
+          })
+          .sort(sortByStartTime)
+          .slice(0, itemsPerPage);
       case 'C':
-        return items.filter(item => item.time >= '15:00' && item.time < '18:40').slice(0, itemsPerPage);
+        return items
+          .filter(item => {
+            const startTime = getStartTime(item.time);
+            return startTime >= '15:00' && startTime < '18:40';
+          })
+          .sort(sortByStartTime)
+          .slice(0, itemsPerPage);
       case 'D':
-        return items.filter(item => item.time >= '18:40' && item.time <= '21:20').slice(0, itemsPerPage);
+        return items
+          .filter(item => {
+            const startTime = getStartTime(item.time);
+            return startTime >= '18:40' && startTime <= '21:20';
+          })
+          .sort(sortByStartTime)
+          .slice(0, itemsPerPage);
       default:
-        return items.sort((a, b) => a.time.localeCompare(b.time)).slice(0, itemsPerPage);
+        return items.sort(sortByStartTime).slice(0, itemsPerPage);
     }
   };
 
   return (
-    <View className="flex-1 p-4">
-      <View className="flex-row  justify-center mb-4">
+    <View className="flex-1 p-4 ">
+      <View className="flex-row  justify-center mb-4 flex-wrap max-w-md">
         <FilterButton title="Block A" onPress={() => setFilter('A')} isActive={filter === 'A'} />
         <FilterButton title="Block B" onPress={() => setFilter('B')} isActive={filter === 'B'} />
         <FilterButton title="Block C" onPress={() => setFilter('C')} isActive={filter === 'C'} />
         <FilterButton title="Block D" onPress={() => setFilter('D')} isActive={filter === 'D'} />
- 
       </View>
 
       <View className=''>

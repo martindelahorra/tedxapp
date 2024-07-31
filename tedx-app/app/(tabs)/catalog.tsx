@@ -8,6 +8,8 @@ import MiniCard from "@/components/MiniCard";
 import dataNobg from "@/assets/data/dataNoBg";
 import Rcard from "@/components/ReviewCard"
 
+import data from '@/assets/data/general'
+
 
 type RootStackParamList = {
   SpeakerDetail: { speakerId: number };
@@ -86,7 +88,37 @@ export default function TabThreeScreen() {
     
       <View> 
           <MiniCard/>
+         
+
       </View>
+      <View className="p-4 ">
+        <View className="h-16 bg-pinktdx w-full flex justify-center rounded-t-3xl">
+          <Text className="font-[Sans] text-xl text-white pl-7 uppercase">
+            General
+          </Text>
+        </View>
+      </View>
+
+      <ScrollView>
+  {data.map((item) => (
+    <View key={item.time} className="flex-row bg-white shadow-2xl rounded-lg w-full min-w-sm p-2 mb-4">
+      <View className="justify-center ml-4 w-72 ">
+        <Text className="text-gray-600 text-base">{item.time}</Text>
+        {item.host ? (
+          <Text className="text-lg text-pinktdx font-[Sans]">
+            {item.host}
+          </Text>
+        ) : null}
+        <Text className="text-lg font-[Sans]">
+          {item.title}
+        </Text>
+      </View>
+    </View>
+  ))}
+</ScrollView>
+
+
+      
     </ScrollView>
   );
 }
