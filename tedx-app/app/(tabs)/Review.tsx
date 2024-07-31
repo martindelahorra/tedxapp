@@ -4,10 +4,10 @@ import { useColorScheme } from 'nativewind';
 import Star from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
 import { auth, db } from '@/firebaseConfig';
 
-const ReviewInput = ({ charlaId = 'General' }) => {
+const ReviewInput = ({ charlaId = 'TedX Vitacura' }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [userName, setUserName] = useState('');
@@ -57,8 +57,11 @@ const ReviewInput = ({ charlaId = 'General' }) => {
         createdAt: new Date()
       };
 
-      const docRef = doc(db, "Comentarios", `${charlaId}_${userId}`);
-      await setDoc(docRef, commentDoc);
+      // Referencia a la colección 'Comentarios'
+      const commentsCollectionRef = collection(db, "Comentarios");
+
+      // Agregar un nuevo documento con un ID único generado automáticamente
+      const docRef = await addDoc(commentsCollectionRef, commentDoc);
       
       console.log('Comentario agregado correctamente:', {
         id: docRef.id,
@@ -68,7 +71,7 @@ const ReviewInput = ({ charlaId = 'General' }) => {
       setRating(0);
       setComment('');
       setSuccessMessage('Comentario enviado exitosamente!');
-      setTimeout(() => setSuccessMessage(''), 6000); // Oculta el mensaje después de 3 segundos
+      setTimeout(() => setSuccessMessage(''), 6000); // Oculta el mensaje después de 6 segundos
     } catch (error) {
       console.error('Error al enviar el comentario:', error);
     }
@@ -95,7 +98,7 @@ const ReviewInput = ({ charlaId = 'General' }) => {
               <Text className='text-base font-light text-gray'>Cuéntanos qué te ha parecido.</Text>
             </View>
             <TextInput
-              className="w-full min-h-[100px] p-4 mb-4 border border-gray/10 rounded-md text-black "
+              className="w-full min-h-[100px] max-h-[200px] p-4 mb-4 border border-gray/10 rounded-md text-black "
               placeholder="Escribe tu comentario aquí..."
               placeholderTextColor={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
               value={comment}

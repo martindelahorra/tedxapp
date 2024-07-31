@@ -1,103 +1,178 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import {
-  Button,
   Text,
   View,
   ScrollView,
   Image,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from "react-native";
-import Star from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import * as Calendar from 'expo-calendar';
 import { CountUp } from 'use-count-up';
 import Toast from 'react-native-root-toast';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import MiniCard from "@/components/MiniCard";
+import { db } from '@/firebaseConfig';
+import { collection, query, orderBy, where, limit, getDocs } from 'firebase/firestore';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-const createCalendarEvents = async () => {
-  const { status } = await Calendar.requestCalendarPermissionsAsync();
-  if (status === 'granted') {
-    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-    let calendarId;
+const HomeScreen = () => {
+  const [comments, setComments] = useState([]);
+  const navigation = useNavigation();
 
-    if (calendars.length > 0) {
-      calendarId = calendars[0].id;
-    }
+  const handleReviewButtonPress = () => {
+    navigation.navigate('Review');
+  };
 
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+  const createCalendarEvents = async () => {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status === 'granted') {
+      const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+      let calendarId;
 
-    const eventDetails2 = {
-      title: 'Evento TEDx Vitacura',
-      startDate: new Date(tomorrow.setHours(18, 0, 0)),
-      endDate: new Date(tomorrow.setHours(20, 0, 0)),
-      timeZone: 'GMT',
-      location: 'Location 2',
-    };
+      if (calendars.length > 0) {
+        calendarId = calendars[0].id;
+      }
 
-    if (calendarId) {
-      const eventId2 = await Calendar.createEventAsync(calendarId, eventDetails2);
-      console.log(`Event 2 created with ID: ${eventId2}`);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const eventDetails2 = {
+        title: 'Evento TEDx Vitacura',
+        startDate: new Date(tomorrow.setHours(18, 0, 0)),
+        endDate: new Date(tomorrow.setHours(20, 0, 0)),
+        timeZone: 'GMT',
+        location: 'Location 2',
+      };
+
+      if (calendarId) {
+        const eventId2 = await Calendar.createEventAsync(calendarId, eventDetails2);
+        console.log(`Event 2 created with ID: ${eventId2}`);
+      } else {
+        console.log('Calendar ID is undefined');
+      }
     } else {
-      console.log('Calendar ID is undefined');
+      console.log('Calendar permission not granted');
     }
-  } else {
-    console.log('Calendar permission not granted');
-  }
-  Toast.show('The events add to your Calendar', {
-    duration: Toast.durations.LONG,
-    position: Toast.positions.BOTTOM,
-    shadow: true,
-    animation: true,
-    hideOnPress: true,
-    delay: 0,
-  });
-};
+    Toast.show('The events add to your Calendar', {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+  };
 
-export default function HomeScreen() {  // Asegúrate de que recibe navigation
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...'; 
+    }
+    return text;
+  };
+
+  const fetchComments = async () => {
+    try {
+      const q = query(collection(db, "Comentarios"), where("valoracion", ">=", 4), orderBy("createdAt", "desc"), limit(10));
+      const querySnapshot = await getDocs(q);
+      const commentsList = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          autor: data.autor || "Autor desconocido",
+          charlaId: data.idCharla,
+          comentario: data.comentario || "Comentario no disponible",
+          valoracion: data.valoracion || 0,
+          createdAt: data.createdAt || ""
+        };
+      });
+      setComments(commentsList);
+    } catch (error) {
+      console.error("Error fetching comments: ", error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchComments();
+    }, [])
+  );
+
   return (
     <RootSiblingParent>
-      <ScrollView className="flex-1 bg-white ">
+      <ScrollView className="flex-1 bg-white">
         <View className="bg-black">
           <ImageBackground
             source={require("@/assets/images/TedxVitacura.jpg")}
             resizeMode="cover"
             className="h-96 justify-center items-center"
-          >
-            
-          </ImageBackground>
+          />
+          
           <View className="p-4 bg-white">
+            <View className="justify-center items-center">
+              <TouchableOpacity className="bg-red-600 py-2 w-11/12" onPress={handleReviewButtonPress}>
+                <Text className="text-white text-xs text-center">¡Deja tu review!</Text>
+              </TouchableOpacity>
+            </View>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {[...Array(10)].map((_, index) => (
-                <View className="block max-w-sm p-6 bg-white border bg-white p-4 m-2 shadow-md" style={{ backgroundColor: 'white', padding: 16, margin: 8, borderRadius: 8, shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 4, borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.2)' }}>
-                  <View className="flex-row items-center">
-                    <Text className="text-lg font-semibold">
+              {comments.map((comment, index) => {
+                if (comment.valoracion >= 4) {
+                  let stars = comment.valoracion === 4
+                    ? [1, 2, 3, 4]
+                    : comment.valoracion === 5
+                      ? [1, 2, 3, 4, 5]
+                      : [];
 
-                      {[1, 2, 3, 4, 5].map((star) => (
-                      
-                        <Star
-                          name={'star'}
-                          size={12}
-                          color="#FFC107"
-                        />   
-                      ))}
-                    </Text>
-                    <Text style={{ fontStyle: 'italic' }}>"Martin".</Text>
-                  </View>
-                  <Text className="text-gray-600">Lorem ipsum dolor sit amet</Text>
-                
-                </View>
-              
-               ))}
-              {/* Add more cards as needed */}
+                  return (
+                    <View
+                      key={index}
+                      className="block max-w-sm p-6 bg-white border bg-white p-4 m-2 shadow-md"
+                      style={{
+                        backgroundColor: 'white',
+                        padding: 16,
+                        margin: 8,
+                        borderRadius: 8,
+                        shadowColor: '#000',
+                        shadowOpacity: 0.2,
+                        shadowRadius: 4,
+                        borderWidth: 1,
+                        borderColor: 'rgba(0, 0, 0, 0.2)',
+                      }}
+                    >
+                      <View>
+                      <Text className="text-lg font-semibold">
+                          {stars.length > 0 ? (
+                            stars.map((starValue, i) => (
+                              <Ionicons key={i} name="star" size={16} color="#FFC107" />
+                            ))
+                          ) : (
+                            <Text>No hay estrellas</Text>
+                          )}
+                        </Text>
+                      </View>
+                      <View className="flex-row items-center">
+                        
+                        <Text>
+                        <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
+                          {`${comment.autor} `}
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 14 }}>
+                          {`sobre ${comment.charlaId}`}
+                        </Text>
+                      </Text>
+                      </View>
+                      <View style={styles.hr} />
+                      <Text className="text-gray-600">
+                        {truncateText(comment.comentario, 200)}
+                      </Text>
+                    </View>
+                  )
+                }
+              })}
             </ScrollView>
           </View>
-          {/* <View className="p-4">
-            <Button title="Create Events in My Calendar" onPress={createCalendarEvents} color="red" />
-          </View>  */}
           <View className="flex-1 bg-white items-center justify-center p-4">
             <View className="mb-8">
               <Text className="text-red-600 text-4xl font-[Alata] text-center">
@@ -168,4 +243,26 @@ export default function HomeScreen() {  // Asegúrate de que recibe navigation
       </ScrollView>
     </RootSiblingParent>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  text: {
+    fontSize: 18,
+    marginVertical: 10,
+  },
+  hr: {
+    width: '100%', // Ancho de la línea
+    height: .5, // Altura de la línea
+    backgroundColor: 'grey', // Color de la línea
+    marginTop: 5, // Espacio arriba y abajo de la línea
+    marginBottom: 12,
+  },
+});
+
+export default HomeScreen;

@@ -7,7 +7,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import Star from '@expo/vector-icons/Ionicons';
 import { useColorScheme } from 'nativewind';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
 import { auth, db } from '@/firebaseConfig';
 
 type RootStackParamList = {
@@ -48,10 +48,7 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
       } else {
         console.log("No se puede abrir la URL: " + url);
       }
-    });
-    if (url) {
-      Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
-    }
+    }).catch(err => console.error("Failed to open URL:", err));
   };
 
   useEffect(() => {
@@ -84,21 +81,28 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
       return;
     }
 
+    if (!speaker?.name) {
+      console.log('El nombre del orador no está disponible');
+      return;
+    }
+
     try {
       const commentDoc = {
         autor: userName,
         comentario: comment,
         valoracion: rating,
-        idCharla: charlaId, 
+        idCharla: speaker.name,  // Usar speaker.name como idCharla
         userId: userId,
         createdAt: new Date()
       };
 
-      const docRef = doc(db, "Comentarios", `${charlaId}_${userId}`);
-      await setDoc(docRef, commentDoc);
+      // Referencia a la colección 'Comentarios'
+      const commentsCollectionRef = collection(db, "Comentarios");
+
+      // Agregar un nuevo documento con un ID único generado automáticamente
+      await addDoc(commentsCollectionRef, commentDoc);
 
       console.log('Comentario agregado correctamente:', {
-        id: docRef.id,
         ...commentDoc
       });
 
@@ -147,7 +151,7 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
       </View>
     );
   }
-  const charlaId = speaker?.id;
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -157,16 +161,14 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
         />
         <View className='p-4 border rounded-lg'>
           <View className='flex-row justify-between items-start'>
-
             <View className='flex-1'>
               <Text className='text-3xl text-pinktdx'>{speaker.name}</Text>
               <Text className='text-white text-md font-[Outfit] text-justify'>{speaker.subtitle}</Text>
             </View>
-
             <View>
               <TouchableOpacity
                 className='bg-red-600 py-2 px-4 flex-row items-center'
-                onPress={handleReviewButtonPress} // Llama a la función que maneja la lógica de autenticación
+                onPress={handleReviewButtonPress}
               >
                 <Ionicons name="chatbubble-outline" size={24} color="white" />
                 <Text className="text-white text-xs text-center ml-2">Dejar Reseña</Text>
@@ -225,7 +227,7 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
                   <Text className='text-base font-light text-gray'>Cuéntanos qué te ha parecido.</Text>
                 </View>
                 <TextInput
-                  className="w-full min-h-[100px] p-4 mb-4 border border-gray/10 rounded-md text-black"
+                  className="w-full min-h-[100px] max-h-[100px] p-4 mb-4 border border-gray/10 rounded-md text-black"
                   placeholder="Escribe tu comentario aquí..."
                   placeholderTextColor={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
                   value={comment}
@@ -261,7 +263,6 @@ export default function SpeakerDetail({ route }: SpeakerDetailProps) {
           </View>
         </View>
       </BottomSheet>
-      {/* Mostrar mensaje de éxito si existe */}
       {successMessage ? (
         <View style={styles.successMessageContainer}>
           <Text style={styles.successMessageText}>{successMessage}</Text>
