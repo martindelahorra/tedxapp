@@ -8,13 +8,16 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
-import * as Calendar from 'expo-calendar';
-import { CountUp } from 'use-count-up';
-import Toast from 'react-native-root-toast';
-import { RootSiblingParent } from 'react-native-root-siblings';
+import Carousel from "react-native-snap-carousel";
+import { WebView } from "react-native-webview";
+import { Ionicons } from "@expo/vector-icons";
+import * as Calendar from "expo-calendar";
+import { CountUp } from "use-count-up";
+import Toast from "react-native-root-toast";
+import { RootSiblingParent } from "react-native-root-siblings";
 import { db } from '@/firebaseConfig';
 import { collection, query, orderBy, where, limit, getDocs } from 'firebase/firestore';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -29,35 +32,40 @@ const HomeScreen = () => {
 
   const createCalendarEvents = async () => {
     const { status } = await Calendar.requestCalendarPermissionsAsync();
-    if (status === 'granted') {
-      const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    if (status === "granted") {
+      const calendars = await Calendar.getCalendarsAsync(
+      Calendar.EntityTypes.EVENT
+    );
       let calendarId;
 
       if (calendars.length > 0) {
         calendarId = calendars[0].id;
       }
 
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
       const eventDetails2 = {
-        title: 'Evento TEDx Vitacura',
+        title: "Evento TEDx Vitacura",
         startDate: new Date(tomorrow.setHours(18, 0, 0)),
         endDate: new Date(tomorrow.setHours(20, 0, 0)),
-        timeZone: 'GMT',
-        location: 'Location 2',
+        timeZone: "GMT",
+        location: "Location 2",
       };
 
       if (calendarId) {
-        const eventId2 = await Calendar.createEventAsync(calendarId, eventDetails2);
+        const eventId2 = await Calendar.createEventAsync(
+        calendarId,
+        eventDetails2
+      );
         console.log(`Event 2 created with ID: ${eventId2}`);
       } else {
-        console.log('Calendar ID is undefined');
+        console.log("Calendar ID is undefined");
       }
     } else {
-      console.log('Calendar permission not granted');
+      console.log("Calendar permission not granted");
     }
-    Toast.show('The events add to your Calendar', {
+    Toast.show("The events add to your Calendar", {
       duration: Toast.durations.LONG,
       position: Toast.positions.BOTTOM,
       shadow: true,
@@ -67,6 +75,8 @@ const HomeScreen = () => {
     });
   };
 
+export default function HomeScreen() {
+  // Asegúrate de que recibe navigation
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...'; 
@@ -102,75 +112,44 @@ const HomeScreen = () => {
 
   return (
     <RootSiblingParent>
-      <ScrollView className="flex-1 bg-white">
+      <ScrollView className="flex-1 bg-white ">
         <View className="bg-black">
-          <ImageBackground
-            source={require("@/assets/images/TedxVitacura.jpg")}
-            resizeMode="cover"
-            className="h-96 justify-center items-center"
-          />
-          
-          <View className="p-4 bg-white">
-            <View className="justify-center items-center">
-              <TouchableOpacity className="bg-red-600 py-2 w-11/12" onPress={handleReviewButtonPress}>
-                <Text className="text-white text-xs text-center">¡Deja tu review!</Text>
-              </TouchableOpacity>
-            </View>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {comments.map((comment, index) => {
-                if (comment.valoracion >= 4) {
-                  let stars = comment.valoracion === 4
-                    ? [1, 2, 3, 4]
-                    : comment.valoracion === 5
-                      ? [1, 2, 3, 4, 5]
-                      : [];
+          {/* principal del landing */}
 
-                  return (
-                    <View
-                      key={index}
-                      className="block max-w-sm p-6 bg-white border bg-white p-4 m-2 shadow-md"
-                      style={{
-                        backgroundColor: 'white',
-                        padding: 16,
-                        margin: 8,
-                        borderRadius: 8,
-                        shadowColor: '#000',
-                        shadowOpacity: 0.2,
-                        shadowRadius: 4,
-                        borderWidth: 1,
-                        borderColor: 'rgba(0, 0, 0, 0.2)',
-                      }}
-                    >
-                      <View>
-                      <Text className="text-lg font-semibold">
-                          {stars.length > 0 ? (
-                            stars.map((starValue, i) => (
-                              <Ionicons key={i} name="star" size={16} color="#FFC107" />
-                            ))
-                          ) : (
-                            <Text>No hay estrellas</Text>
-                          )}
-                        </Text>
-                      </View>
-                      <View className="flex-row items-center">
-                        
-                        <Text>
-                        <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
-                          {`${comment.autor} `}
-                        </Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 14 }}>
-                          {`sobre ${comment.charlaId}`}
-                        </Text>
-                      </Text>
-                      </View>
-                      <View style={styles.hr} />
-                      <Text className="text-gray-600">
-                        {truncateText(comment.comentario, 200)}
-                      </Text>
-                    </View>
-                  )
-                }
-              })}
+          <View className="p-4 bg-white">
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {[...Array(10)].map((_, index) => (
+                <View
+                  className="block max-w-sm p-6 bg-white border bg-white p-4 m-2 shadow-md"
+                  style={{
+                    backgroundColor: "white",
+                    padding: 16,
+                    margin: 8,
+                    borderRadius: 8,
+                    shadowColor: "#000",
+                    shadowOpacity: 0.2,
+                    shadowRadius: 4,
+                    borderWidth: 1,
+                    borderColor: "rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  <View className="flex-row items-center">
+                    <Text className="text-lg font-semibold">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star name={"star"} size={12} color="#FFC107" />
+                      ))}
+                    </Text>
+                    <Text style={{ fontStyle: "italic" }}>"Martin".</Text>
+                  </View>
+                  <Text className="text-gray-600">
+                    Lorem ipsum dolor sit amet
+                  </Text>
+                </View>
+              ))}
+              {/* Add more cards as needed */}
             </ScrollView>
           </View>
           <View className="flex-1 bg-white items-center justify-center p-4">
@@ -186,11 +165,14 @@ const HomeScreen = () => {
               <Text className="text-red-600 text-4xl font-[Alata] ex text-center">
                 <CountUp isCounting end={20} duration={3.2} />
               </Text>
-              <Text className="text-black text-2xl font-[Alata] mb-2">Speakers</Text>
+              <Text className="text-black text-2xl font-[Alata] mb-2">
+                Speakers
+              </Text>
             </View>
             <View className="mb-8">
               <Text className="text-red-600 text-4xl font-[Alata] text-center">
-                <CountUp isCounting end={360} duration={3.2} />min
+                <CountUp isCounting end={360} duration={3.2} />
+                min
               </Text>
               <Text className="text-black text-2xl font-[Alata] mb-2">
                 Actividades
@@ -198,27 +180,25 @@ const HomeScreen = () => {
             </View>
             <Image
               source={require("@/assets/images/crowdTEDX.png")}
-              className="w-96 h-32 mt-4"
+              className="w-96 h-32 mt-4 mb-4"
               resizeMode="cover"
             />
             <View className="items-center justify-center p-4">
-              <Text className="text-black text-xl font-[Roboto] mb-2">
-                SE PARTE
+              <Text className="text-black text-2xl font-[Outfit] font-bold mb-2">
+                ÚNETE A LOS
               </Text>
-              <Text className="text-black text-xl font-[Roboto] mb-2">
-                DE LAS IDEAS
+              <Text className="text-red-600 text-2xl font-[Roboto] font-extrabold mb-10">
+                CREADORES DEL CAMBIO
               </Text>
-              <Text className="text-black text-xl font-[Roboto] mb-10">
+              {/* <Text className="text-black text-xl font-[Roboto] mb-10">
                 QUE INSPIRAN
-              </Text>
-              <Text className=" text-black text-xs font-[Outfit] text-justify mb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                sapiente debitis, eveniet laudantium perspiciatis doloribus
-                consequuntur qui beatae voluptatem nemo praesentium nesciunt fugit
-                officiis iste nam nihil! Delectus ab harum perspiciatis
-                aspernatur! Similique, reprehenderit facilis illo architecto
-                blanditiis deserunt quisquam fugit ea expedita, ipsam minima
-                impedit nam cum. Voluptatem, earum?
+              </Text> */}
+              <Text className=" text-gray text-xs font-[Outfit] text-justify font-extrabold mb-0">
+                TEDx 2024 te invita a descubrir la fusión entre innovación y
+                sustentabilidad que está modelando un futuro mejor. Sé testigo
+                de cómo expertos visionarios presentan ideas disruptivas y
+                proyectos inspiradores que están redefiniendo nuestra forma de
+                vivir, trabajar y conectar con el mundo.
               </Text>
             </View>
             <Image
@@ -227,16 +207,93 @@ const HomeScreen = () => {
               resizeMode="contain"
             />
             <View>
-              <Text className="text-black text-2xl font-[Roboto] font-bold mb-10">
+              <Text className="text-black text-2xl font-[Roboto] font-bold mb-1 text-center">
                 ACREDITACIÓN PRENSA
               </Text>
-              <View className="justify-center items-center">
-                <TouchableOpacity className="bg-red-600 py-2 w-11/12">
-                  <Text className="text-white text-xs text-center">Más Info</Text>
+              <View className="justify-center items-center ">
+                <TouchableOpacity className="bg-red-600 py-2 w-80 mb-3 mx-0">
+                  <Text className="text-white text-sm text-center">
+                    Más Info
+                  </Text>
                 </TouchableOpacity>
+                <Text className="text-black text-xs font-[Sans] mb-10">
+                  Convocatoria abierta para medios de prensa
+                </Text>
+              </View>
+            </View>
+
+            <View>
+              <Text className="text-black text-2xl font-[Roboto] font-bold mb-1 text-center">
+                POSTULACIÓN VOLUNTARIA
+              </Text>
+              <View className="justify-center items-center ">
+                <TouchableOpacity className="bg-red-600 py-2 w-80 mb-3 mx-0">
+                  <Text className="text-white text-sm text-center">
+                    Más Info
+                  </Text>
+                </TouchableOpacity>
+                <Text className="text-black text-xs font-[Sans] mb-10">
+                  Proceso cerrado
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text className="text-black text-2xl font-[Roboto] font-bold mb-1 text-center">
+                Audiciones artísticas
+              </Text>
+              <View className="justify-center items-center ">
+                <TouchableOpacity className="bg-red-600 py-2 w-80 mb-3 mx-0">
+                  <Text className="text-white text-sm text-center">
+                    Más Info
+                  </Text>
+                </TouchableOpacity>
+                <Text className="text-black text-xs font-[Sans] mb-10">
+                  Disponible desde
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text className="text-black text-2xl font-[Roboto] font-bold mb-1 text-center">
+                PARTNERSHIP SPONSORSHIP
+              </Text>
+              <View className="justify-center items-center ">
+                <TouchableOpacity className="bg-red-600 py-2 w-80 mb-3 mx-0">
+                  <Text className="text-white text-sm text-center">
+                    Más Info
+                  </Text>
+                </TouchableOpacity>
+                <Text className="text-black text-xs font-[Sans] mb-10">
+                  Buscamos partnership que esten en la vision de TED
+                </Text>
               </View>
             </View>
           </View>
+          <ImageBackground
+            source={require("@/assets/images/tedx.jpg")}
+            resizeMode="cover"
+            className="h-auto justify-center items-center"
+          >
+            <Text className="bg-red-600 text-3xl font-[Roboto] font-extrabold mb-2 mt-4">
+              UN VIAJE
+            </Text>
+            <Text className="text-white text-2xl font-extrabold mb-4  font-[Sans]">
+              TRANSFORMADOR
+            </Text>
+            {/* <Text className="text-white text-2xl font-bold mb-6">
+              TRANSFORMADOR
+            </Text> */}
+            <Text className="text-white text-xs  text-justify font-[Sans] mb-10 mx-4">
+              Te damos la bienvenida a TEDx 2024, donde la magia de TED se
+              fusiona con la vibrante energía de nuestra comunidad. Esta
+              conferencia es más que un evento; es un viaje cautivador que
+              transformará tu perspectiva y despertará tu imaginación.
+              Experimentarás momentos electrizantes que desafiarán los límites
+              de la mente y el alma. Las charlas profundas y conmovedoras
+              dejarán una huella duradera en tu ser. Pero no es solo sobre las
+              charlas; se trata de compartir ideas que cambian el mundo y a tí.
+            </Text>
+          </ImageBackground>
+
           <StatusBar style="auto" />
         </View>
         <Footer />
