@@ -116,8 +116,8 @@ export default function Sponsors() {
                    end={{ x: 1, y: 0 }}
                 />
            </View>
-           <View className="h-20" />
-           <View className='pb-4'>
+           <View className="h-10 " />
+           <View className='pb-4 '>
                <Text className='text-pinktdx text-2xl font-[Alata] mb-2 text-center pb-8'>Partners</Text>
                <ImageCarousel sponsors={bottomSponsors} speed={0.5} reverse />
                <LinearGradient
@@ -145,10 +145,10 @@ export default function Sponsors() {
                    end={{ x: 1, y: 0 }}
                  />
            </View>
-           <View className="bg-black flex-row justify-between items-center py-9 mb-2">
+           <View className="bg-black flex items-center  py-9 mb-2">
                <TouchableOpacity
                 onPress={handlePress}
-                className="bg-red-600 py-2 flex-1 w-11/12 rounded-md"
+                className="bg-red-600 py-2 flex-1 w-11/12 h-9 rounded-md"
                 >
                 <Text className="text-white text-xs text-center">
                  Conviértete en nuestro Sponsor/Partner

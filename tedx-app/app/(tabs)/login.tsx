@@ -88,12 +88,17 @@ export default function LoginScreen() {
         title="Iniciar Sesión"
         color="#d51523"
         onPress={handleLogin}
+      
       />
-      <Button
+      <Text  onPress={handleForgotPassword} className="text-sm font-[Outfit] text-white border-x-bg-linkedin ">
+        Olvidé mi contraseña
+      </Text>
+
+      {/* <Button
         title="Olvidé mi contraseña"
         color="#d51523"
         onPress={handleForgotPassword}
-      />
+      /> */}
     </View>
   );
 }
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    gap:6,
     backgroundColor: "#121212", // Fondo oscuro para contraste
   },
   input: {

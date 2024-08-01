@@ -140,13 +140,13 @@ const HomeScreen = () => {
             automaticallyAdjustContentInsets={false}
           />
 
-          <View className="p-4 bg-white">
-            <View className="justify-center items-center">
+          <View className="p-4 pt-7 bg-white">
+            <View className="justify-center items-center pb-7">
               <TouchableOpacity
-                className="bg-red-600 py-2 w-11/12"
+                className="bg-red-600 py-2 w-11/12 rounded-md "
                 onPress={handleReviewButtonPress}
               >
-                <Text className="text-white text-xs text-center">
+                <Text className="text-white text-xs text-center ">
                   ¡Deja tu review!
                 </Text>
               </TouchableOpacity>
@@ -247,24 +247,21 @@ const HomeScreen = () => {
               className="w-96 h-32 mt-4"
               resizeMode="cover"
             />
-            <View className="items-center justify-center p-4">
-              <Text className="text-black text-xl font-[Roboto] mb-2">
+            <View className="items-center justify-center p-4  mt-5">
+              <Text className="text-deep-blue text-5xl text-center font-[Outfit] mb-2">
                 SE PARTE
               </Text>
-              <Text className="text-black text-xl font-[Roboto] mb-2">
+              <Text className="text-red-600 text-center text-6xl font-[Sans]  mb-2">
                 DE LAS IDEAS
               </Text>
-              <Text className="text-black text-xl font-[Roboto] mb-10">
+              <Text className="text-deep-blue text-5xl text-center  font-[Outfit]  mb-10">
                 QUE INSPIRAN
               </Text>
-              <Text className=" text-black text-xs font-[Outfit] text-justify mb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                sapiente debitis, eveniet laudantium perspiciatis doloribus
-                consequuntur qui beatae voluptatem nemo praesentium nesciunt
-                fugit officiis iste nam nihil! Delectus ab harum perspiciatis
-                aspernatur! Similique, reprehenderit facilis illo architecto
-                blanditiis deserunt quisquam fugit ea expedita, ipsam minima
-                impedit nam cum. Voluptatem, earum?
+              <Text className=" text-deep-blue text-md font-[Outfit] text-justify mb-0">
+              En TEDxVitacura 2024, descubre cómo la innovación y la sustentabilidad convergen para tejer un
+              impacto positivo en nuestro mundo. Únete a oradores expertos que desvelarán ideas
+              revolucionarias y proyectos transformadores, redefiniendo la forma en que vivimos,
+              trabajamos y nos conectamos con nuestro entorno.
               </Text>
             </View>
             <Image
@@ -276,8 +273,8 @@ const HomeScreen = () => {
               <Text className="text-black text-2xl font-[Roboto] font-bold mb-10">
                 ACREDITACIÓN PRENSA
               </Text>
-              <View className="justify-center items-center">
-                <TouchableOpacity className="bg-red-600 py-2 w-11/12">
+              <View className="justify-center items-center ">
+                <TouchableOpacity className="bg-red-600 py-2 w-11/12 rounded-md">
                   <Text className="text-white text-xs text-center">
                     Más Info
                   </Text>

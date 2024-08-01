@@ -16,6 +16,7 @@ import { doc, getDoc } from "firebase/firestore"; // Importa las funciones neces
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Sponsors from "./sponsors";
+import Regulations from "./regulations";
 
 const Drawer = createDrawerNavigator();
 
