@@ -78,7 +78,7 @@ export default function TabThreeScreen() {
       </View>
       
       <View className="p-4 ">
-        <View className="h-16 bg-pinktdx w-full flex justify-center rounded-t-3xl">
+        <View className="h-16 bg-bg-red w-full flex justify-center rounded-t-3xl">
           <Text className="font-[Sans] text-xl text-white pl-7 uppercase">
             Speakers Lineup
           </Text>
@@ -92,7 +92,7 @@ export default function TabThreeScreen() {
 
       </View>
       <View className="p-4 ">
-        <View className="h-16 bg-pinktdx w-full flex justify-center rounded-t-3xl">
+        <View className="h-16 bg-bg-red w-full flex justify-center rounded-t-3xl">
           <Text className="font-[Sans] text-xl text-white pl-7 uppercase">
             General
           </Text>

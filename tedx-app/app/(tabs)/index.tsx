@@ -27,6 +27,7 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WebView } from "react-native-webview";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import MiniCard from "@/components/MiniCard";
 
 const HomeScreen = () => {
   const [comments, setComments] = useState([]);
@@ -124,7 +125,7 @@ const HomeScreen = () => {
       <ScrollView className="flex-1 bg-white">
         <View className="bg-black">
           <Text
-            className="text-white text-2xl font-[Roboto] font-bold mb-10"
+            className="text-white text-2xl font-[Roboto]  font-bold mb-10"
             style={{ marginBottom: 0, marginLeft: 10, fontSize: 15 }}
           >
             Señal en Vivo <Fontisto name="record" size={12} color="red" />
@@ -140,14 +141,14 @@ const HomeScreen = () => {
             automaticallyAdjustContentInsets={false}
           />
 
-          <View className="p-4 pt-7 bg-white">
+          <View className="p-4 pt-7 pb-14  bg-white">
             <View className="justify-center items-center pb-7">
               <TouchableOpacity
                 className="bg-red-600 py-2 w-11/12 rounded-md "
                 onPress={handleReviewButtonPress}
               >
                 <Text className="text-white text-xs text-center ">
-                  ¡Deja tu review!
+                  ¡Deja tu Comentario!
                 </Text>
               </TouchableOpacity>
             </View>
@@ -216,74 +217,118 @@ const HomeScreen = () => {
               })}
             </ScrollView>
           </View>
-          <View className="flex-1 bg-white items-center justify-center p-4">
-            <View className="mb-8">
-              <Text className="text-red-600 text-4xl font-[Alata] text-center">
+          {/* <View className="flex-1 bg-white items-center justify-center p-4"> */}
+
+          <View className="flex-1 bg-[#141414]">
+          <View className="flex-1 flex-row items-center justify-center  gap-4 bg-[#141414]  p-8 ">
+            <View className=" ">
+              <Text className="text-red-600 text-4xl font-[Alata] text-center ">
                 <CountUp isCounting end={12} duration={3.2} /> HR
               </Text>
-              <Text className="text-black text-2xl font-[Alata] mb-2">
+              <Text className="text-white text-2xl font-[Alata] mb-2">
                 Inspiración
               </Text>
             </View>
-            <View className="mb-8">
+            <View className="">
               <Text className="text-red-600 text-4xl font-[Alata] ex text-center">
                 <CountUp isCounting end={20} duration={3.2} />
               </Text>
-              <Text className="text-black text-2xl font-[Alata] mb-2">
+              <Text className="text-white text-2xl font-[Alata] mb-2">
                 Speakers
               </Text>
             </View>
-            <View className="mb-8">
+            <View className="">
               <Text className="text-red-600 text-4xl font-[Alata] text-center">
                 <CountUp isCounting end={360} duration={3.2} />
                 min
               </Text>
-              <Text className="text-black text-2xl font-[Alata] mb-2">
+              <Text className="text-white text-2xl font-[Alata] mb-2">
                 Actividades
               </Text>
             </View>
-            <Image
-              source={require("@/assets/images/crowdTEDX.png")}
-              className="w-96 h-32 mt-4"
-              resizeMode="cover"
-            />
-            <View className="items-center justify-center p-4  mt-5">
-              <Text className="text-deep-blue text-5xl text-center font-[Outfit] mb-2">
-                SE PARTE
-              </Text>
-              <Text className="text-red-600 text-center text-6xl font-[Sans]  mb-2">
-                DE LAS IDEAS
-              </Text>
-              <Text className="text-deep-blue text-5xl text-center  font-[Outfit]  mb-10">
-                QUE INSPIRAN
-              </Text>
-              <Text className=" text-deep-blue text-md font-[Outfit] text-justify mb-0">
-              En TEDxVitacura 2024, descubre cómo la innovación y la sustentabilidad convergen para tejer un
-              impacto positivo en nuestro mundo. Únete a oradores expertos que desvelarán ideas
-              revolucionarias y proyectos transformadores, redefiniendo la forma en que vivimos,
-              trabajamos y nos conectamos con nuestro entorno.
+          </View>
+          </View>
+          <View className=" p-4 pt-10 max-w-md bg-white">
+          <View className=" flex justify-center w-full align-middle bg-white">
+            <View className="h-16   bg-bg-red  flex justify-center rounded-t-3xl">
+              <Text className="font-[Sans] text-xl text-white pl-7 uppercase">
+                Speakers Lineup
               </Text>
             </View>
-            <Image
-              source={require("@/assets/images/divider.png")}
-              className="w-3/4 h-32 mt-4"
-              resizeMode="contain"
-            />
-            <View>
-              <Text className="text-black text-2xl font-[Roboto] font-bold mb-10">
-                ACREDITACIÓN PRENSA
-              </Text>
-              <View className="justify-center items-center ">
-                <TouchableOpacity className="bg-red-600 py-2 w-11/12 rounded-md">
-                  <Text className="text-white text-xs text-center">
-                    Más Info
+          </View>
+          </View>
+          
+          <View className="flex-1 mx-auto flex-wrap bg-white ">
+            <MiniCard />
+          </View>
+
+
+<View className="flex-1 bg-[#141414] justify-center p-4 ">
+<Text className="text-white text-xl font-[Alata] text-center">
+              Conoce mas sobre los 
+            </Text>
+            <Text className="text-red-600 text-center text-4xl font-[Alata] font-extrabold mb-0 pt-4">
+            SPEAKERS
+            </Text>
+            
+               
+           
+            <View className="justify-center items-center">
+              <View className="p-4 flex-row justify-between items-center">
+                <TouchableOpacity
+                  className="bg-red-600 py-2 flex-1 rounded-md  font-[Sans]"
+                  onPress={() => navigation.navigate("Speakers")}
+                >
+                  <Text className="text-white text-md text-center font-[Sans]">
+                    Mas Info
                   </Text>
                 </TouchableOpacity>
               </View>
+         
             </View>
           </View>
+ 
+
+          <View className="flex-1 bg-white items-center justify-center p-4">
+         
+          </View>
+          
+            <View className="items-center justify-center p-4 pt-5 bg-white ">
+              <Text className="text-deep-blue text-4xl text-center font-[Outfit] mb-3">
+              ÚNETE A LOS
+              </Text>
+              <Text className="text-red-600 text-center text-5xl font-[Sans]  mb-5">
+              CREADORES DEL CAMBIO
+              </Text>
+              {/* <Text className="text-deep-blue text-5xl text-center  font-[Outfit]  mb-10">
+                QUE INSPIRAN
+              </Text> */}
+              <Text className=" text-deep-blue text-lg font-[Roboto] text-justify mb-10">
+              {/* En TEDxVitacura 2024, descubre cómo la innovación y la sustentabilidad convergen para tejer un
+              impacto positivo en nuestro mundo. Únete a oradores expertos que desvelarán ideas
+              revolucionarias y proyectos transformadores, redefiniendo la forma en que vivimos,
+              trabajamos y nos conectamos con nuestro entorno. */}
+              TEDx 2024 te invita a descubrir la fusión entre innovación y
+                sustentabilidad que está modelando un futuro mejor. Sé testigo
+                de cómo expertos visionarios presentan ideas disruptivas y
+                proyectos inspiradores que están redefiniendo nuestra forma de
+                vivir, trabajar y conectar con el mundo.
+              </Text>
+              {/* <Image
+              source={require("@/assets/images/Circles.png")}
+              className="  absolute  left-80 top-44  -z-10"
+             
+            /> */}
+            </View>
+
+          
+
+          {/* </View> */}
+   
           <StatusBar style="auto" />
+          
         </View>
+       
         <Footer />
       </ScrollView>
     </RootSiblingParent>
