@@ -75,7 +75,7 @@ export default function App() {
     signOut(auth)
       .then(() => {
         console.log('Usuario desconectado con éxito');
-        navigation.navigate('Iniciar Sesión');
+        navigation.navigate('Iniciar Sesion');
       })
       .catch((error) => {
         console.error('Error al cerrar sesión:', error);
@@ -147,7 +147,7 @@ export default function App() {
             <Drawer.Screen name="Registrarse" component={RegisterScreen}
             options={{drawerIcon: ({color, size}) => (
               <Ionicons name="person-add-outline" size={size} color={color} />)}} />
-            <Drawer.Screen name="Iniciar Sesión"   options={{
+            <Drawer.Screen name="Iniciar Sesion"   options={{
     drawerIcon: ({color, size}) => (
       <Ionicons name="log-in-outline" size={size} color={color} />
     )
