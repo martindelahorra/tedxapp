@@ -41,8 +41,8 @@ const sponsor = [
     },
     {
       "id": 9,
-      "nombre": "SIT",
-      "photo_url": require('../images/sit.png')
+      "nombre": "Cubichologram",
+      "photo_url": require('../images/cubichologram.png')
     },
     {
       "id": 10,

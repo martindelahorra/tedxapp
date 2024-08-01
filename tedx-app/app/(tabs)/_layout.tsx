@@ -15,6 +15,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from "firebase/firestore"; // Importa las funciones necesarias de Firestore
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Sponsors from "./sponsors";
 
 const Drawer = createDrawerNavigator();
 
@@ -129,6 +130,10 @@ export default function App() {
         <Drawer.Screen name="Speakers" component={TabThreeScreen}
           options={{drawerIcon: ({color, size}) => 
         (<Ionicons name="people-outline" size={size} color={color} />)}}/>
+
+        <Drawer.Screen name="Sponsors" component={Sponsors}
+          options={{drawerIcon: ({color, size}) => 
+        (<Ionicons name="gift-outline" size={size} color={color} />)}}/>
 
         {isLoggedIn ? (
         <Drawer.Screen name="Review" component={Review} 

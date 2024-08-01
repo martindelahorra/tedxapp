@@ -112,7 +112,7 @@ const HomeScreen = () => {
           
           <View className="p-4 bg-white">
             <View className="justify-center items-center">
-              <TouchableOpacity className="bg-red-600 py-2 w-11/12" onPress={handleReviewButtonPress}>
+              <TouchableOpacity className="bg-red-600 py-2 w-11/12 rounded-md" onPress={handleReviewButtonPress}>
                 <Text className="text-white text-xs text-center">¡Deja tu review!</Text>
               </TouchableOpacity>
             </View>
@@ -231,7 +231,7 @@ const HomeScreen = () => {
                 ACREDITACIÓN PRENSA
               </Text>
               <View className="justify-center items-center">
-                <TouchableOpacity className="bg-red-600 py-2 w-11/12">
+                <TouchableOpacity className="bg-red-600 py-2 w-11/12 rounded-md">
                   <Text className="text-white text-xs text-center">Más Info</Text>
                 </TouchableOpacity>
               </View>
