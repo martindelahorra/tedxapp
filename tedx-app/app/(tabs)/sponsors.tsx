@@ -145,16 +145,7 @@ export default function Sponsors() {
                    end={{ x: 1, y: 0 }}
                  />
            </View>
-           <View className="bg-black flex items-center  py-9 mb-2">
-               <TouchableOpacity
-                onPress={handlePress}
-                className="bg-red-600 py-2 flex-1 w-11/12 h-9 rounded-md"
-                >
-                <Text className="text-white text-xs text-center">
-                 Conviértete en nuestro Sponsor/Partner
-                </Text>
-                </TouchableOpacity>
-            </View>
+           
             <Footer/>
         </View>
     </ScrollView>

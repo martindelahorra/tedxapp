@@ -190,7 +190,7 @@ const infoSpeaker = [
     id: 18,
     name: "Matias Muchnick",
     subtitle: "Speaker Oficial",
-    photo_url: require('../images/MatiasMuchnick.png'),
+    photo_url: require('../images/MatiasMuchnickNobg.png'),
     description: "Matías Muchnick es el fundador y CEO de NotCo, una empresa internacional de tecnología alimentaria basada en plantas, establecida en Chile. NotCo ha crecido rápidamente y se ha convertido en la marca de tecnología alimentaria de mayor crecimiento en América Latina, alcanzando el estatus de unicornio con una valoración de $1.5 mil millones en 2021. Muchnick ha dirigido un equipo multidisciplinario de científicos, chefs y ingenieros en varios países, desarrollando una inteligencia artificial llamada Giuseppe. Esta tecnología avanzada permite crear productos a base de plantas que imitan el sabor, la cocción y la funcionalidad de sus contrapartes animales, revolucionando así la industria alimentaria. Bajo su liderazgo, NotCo ha recibido inversiones de figuras destacadas como Jeff Bezos y ha expandido su presencia global, incluyendo una oficina en Estados Unidos.Matías Muchnick también es reconocido como un innovador en el campo de la tecnología alimentaria y ha aparecido en medios de comunicación como Bloomberg TV, Forbes, y CNN​ (Forbes Argentina)​​ (SALT | Empowering Big Ideas)​.",
     web: "https://notco.com/cl",
     social: "https://www.linkedin.com/in/mmuchnick/",

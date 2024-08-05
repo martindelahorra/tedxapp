@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TEDx Vitacura",
-    "slug": "TEDx Vitacura",
+    "slug": "tedx-vitacura",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/tedx-icon.png",
@@ -24,7 +24,8 @@
       "permissions": [
         "android.permission.READ_CALENDAR",
         "android.permission.WRITE_CALENDAR"
-      ]
+      ],
+      "package": "com.martindelahorra.tedxvitacura"
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +44,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "240ba1c3-bbe3-4935-a0ad-594142fb9b38"
+      }
     }
   }
 }

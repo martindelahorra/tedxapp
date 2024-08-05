@@ -5,8 +5,6 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
-  ImageBackground,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
@@ -15,7 +13,7 @@ import * as Calendar from "expo-calendar";
 import { CountUp } from "use-count-up";
 import Toast from "react-native-root-toast";
 import { RootSiblingParent } from "react-native-root-siblings";
-import { db } from "@/firebaseConfig";
+import { auth, db } from "@/firebaseConfig";
 import {
   collection,
   query,
@@ -28,13 +26,40 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WebView } from "react-native-webview";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import MiniCard from "@/components/MiniCard";
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from "firebase/firestore"; 
 
 const HomeScreen = () => {
   const [comments, setComments] = useState([]);
   const navigation = useNavigation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null); 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setIsLoggedIn(!!user);
+      
+      if (user) {
+        const userDoc = await getDoc(doc(db, "Login", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserId(user.uid); 
+          console.log(userData);
+        }
+      } else {
+        setUserId(null); 
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleReviewButtonPress = () => {
-    navigation.navigate("Review");
+    if (userId) {
+      navigation.navigate('Review');
+    } else {
+      navigation.navigate('Iniciar Sesion');
+    } 
   };
 
   const createCalendarEvents = async () => {
